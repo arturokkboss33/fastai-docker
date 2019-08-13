@@ -24,8 +24,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-
     cmake \
     curl \
     git \
+    iputils-ping \
     libjpeg-dev \
     libpng-dev \
+    net-tools \
     python-qt4 \
     sudo \
     unzip \
@@ -52,8 +54,8 @@ RUN curl -o ~/miniconda.sh -O  https://repo.continuum.io/miniconda/Miniconda3-la
 ENV PATH=$PATH:/opt/conda/bin/
 
 # Create conda enviroment for fast-ai
-COPY enviroment.yaml /enviroment.yaml
-RUN conda env create -f enviroment.yaml
+COPY enviroment-local.yaml /enviroment-local.yaml
+RUN conda env create -f enviroment-local.yaml
 
 # Create main workspace directory -- to be mapped to directory in the host computer
 WORKDIR /home/$user/workspace
@@ -62,6 +64,7 @@ RUN chmod a+rw /home/$user/workspace
 
 # Create an alias to run jupyter notebooks easier
 USER $user
+RUN echo "alias showIP=' ifconfig eth0 | sed -n "2s/[^:]*:\([^ ]*\).*/\\1/p" '" >> /home/$user/.bashrc
 RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --port=8889'" >> /$HOME/.bashrc
 RUN /bin/bash -c 'source $HOME/.bashrc'
 
