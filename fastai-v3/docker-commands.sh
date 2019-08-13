@@ -16,6 +16,7 @@ if [ $1 = "help" ];then
     echo -e "${GREEN}>>> Possible commands:\n ${NC}"
     echo -e "${BLUE}build [Image Name][Tag] --- Build an image based on DockerFile in current dir, and\nuse the provided name and tag${NC}\n"
     echo -e "${BLUE}run [Container name][Image name] --- Create and start container${NC}\n"
+    echo -e "${BLUE}git-fastai --- CLones the fastai/course-v3 into the workspace directory${NC}\n"
     echo -e "${BLUE}start [Container Name] --- Starts an already instantiated container${NC}\n"
     echo -e "${BLUE}stop [Container Name] --- Stops a running container${NC}\n"
     echo -e "${BLUE}console [Container Name] --- Gives terminal access (/bin/bash) access to a running container${NC}\n"
@@ -75,4 +76,9 @@ fi
 if [ $1 = "console" ]; then
     echo -e "${GREEN}>>> Entering console in container ${containerName} ...${NC}"
     docker exec -ti ${containerName} /bin/bash 
+fi
+
+if [ $1 = "git-fastai" ]; then
+    echo -e "${GREEN}>>> Cloning fastai github repository ...${NC}"
+    git clone -b master https://github.com/fastai/course-v3.git `pwd`/workspace/fastai/course-v3
 fi
