@@ -20,22 +20,22 @@ RUN apt-get update -y && apt-get upgrade -y
 # install dependencies
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
     build-essential \
-    cmake \
-    git \
-    curl \
-    vim \
     ca-certificates \
-    python-qt4 \
+    cmake \
+    curl \
+    git \
     libjpeg-dev \
-    zip \
-    unzip \
     libpng-dev \
-    vim && \
+    python-qt4 \
+    sudo \
+    unzip \
+    vim \
+    zip && \
     rm -rf /var/lib/apt/lists/*
 
 ## set up users and groups
 RUN addgroup --gid $groupid $group && \
-    adduser --uid $userid --gid $groupid --shell /bin/bash $user && \
+    adduser --uid $userid --gid $groupid --gecos "" --shell /bin/bash $user && \
     echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$user && \
     chmod 0440 /etc/sudoers.d/$user
 
