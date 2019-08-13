@@ -19,25 +19,25 @@ RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repo
 RUN apt-get update -y && apt-get upgrade -y
 # install dependencies
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
-         build-essential \
-         cmake \
-         git \
-         curl \
-         vim \
-         ca-certificates \
-         python-qt4 \
-         libjpeg-dev \
-         zip \
-         unzip \
-         libpng-dev \
-         vim && \
-     rm -rf /var/lib/apt/lists/*
+    build-essential \
+    cmake \
+    git \
+    curl \
+    vim \
+    ca-certificates \
+    python-qt4 \
+    libjpeg-dev \
+    zip \
+    unzip \
+    libpng-dev \
+    vim && \
+    rm -rf /var/lib/apt/lists/*
 
 ## set up users and groups
 RUN addgroup --gid $groupid $group && \
-	adduser --uid $userid --gid $groupid --shell /bin/bash $user && \
-	echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$user && \
-	chmod 0440 /etc/sudoers.d/$user
+    adduser --uid $userid --gid $groupid --shell /bin/bash $user && \
+    echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$user && \
+    chmod 0440 /etc/sudoers.d/$user
 
 # define environment variables necessary for conda installation
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
@@ -45,9 +45,9 @@ ENV PYTHON_VERSION=3.6
 
 # install miiniconda for python packages and worksapce management
 RUN curl -o ~/miniconda.sh -O  https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
-     chmod +x ~/miniconda.sh && \
-     ~/miniconda.sh -b -p /opt/conda && \
-     rm ~/miniconda.sh && \
+    chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
     /opt/conda/bin/conda install conda-build
 
 ENV PATH=$PATH:/opt/conda/bin/
