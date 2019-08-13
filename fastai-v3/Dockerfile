@@ -64,8 +64,8 @@ RUN chmod a+rw /home/$user/workspace
 
 # Create an alias to run jupyter notebooks easier
 USER $user
-RUN echo "alias showIP=' ifconfig eth0 | sed -n "2s/[^:]*:\([^ ]*\).*/\\1/p" '" >> /home/$user/.bashrc
-RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --port=8889'" >> /$HOME/.bashrc
+RUN echo "alias showIP=' ifconfig eth0 | sed -n \"2s/[^:]*:\\\([^ ]*\\\).*/\\\\1/p\" '" >> /home/$user/.bashrc
+RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --ip=\`showIP\` --port=8889'" >> /$HOME/.bashrc
 RUN /bin/bash -c 'source $HOME/.bashrc'
 
 #WORKDIR /notebooks
