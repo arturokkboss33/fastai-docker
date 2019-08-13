@@ -1,0 +1,16 @@
+name: fastai-v2
+channels:
+  - conda-forge
+  - pytorch
+  - fastai
+dependencies:
+  - pytorch=0.4.1
+  - torchvision
+  - cuda90
+  - fastprogress
+  - fastai
+  - jupyter
+  - pip
+  - pip:
+      - nvidia-ml-py3
+      - dataclasses
