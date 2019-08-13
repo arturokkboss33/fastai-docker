@@ -1,4 +1,4 @@
-name: fastai-v2
+name: fastai
 channels:
   - conda-forge
   - pytorch
