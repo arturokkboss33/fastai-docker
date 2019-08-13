@@ -49,12 +49,15 @@ RUN curl -o ~/miniconda.sh -O  https://repo.continuum.io/miniconda/Miniconda3-la
     ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     /opt/conda/bin/conda install conda-build
-
 ENV PATH=$PATH:/opt/conda/bin/
-#ENV USER fastai
-# Create Enviroment
+
+# Create conda enviroment for fast-ai
 COPY enviroment.yaml /enviroment.yaml
 RUN conda env create -f enviroment.yaml
+
+# Create an alias to run jupyter notebooks easier
+RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --port=8889'" >> /$HOME/.bashrc
+RUN /bin/bash -c 'source $HOME/.bashrc'
 
 # Create main workspace directory -- to be mapped to directory in the host computer
 WORKDIR /home/$user/workspace
