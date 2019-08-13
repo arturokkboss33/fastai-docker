@@ -1,5 +1,5 @@
 # base image
-FROM nvidia/cuda:9.2-base-ubuntu16.04
+FROM nvidia/cuda:9.0-base-ubuntu16.04
 # mantainer
 LABEL maintener="a.gomezchavez@jacobs-university.de"
 
@@ -62,6 +62,7 @@ RUN /bin/bash -c 'source $HOME/.bashrc'
 # Create main workspace directory -- to be mapped to directory in the host computer
 WORKDIR /home/$user/workspace
 RUN chown -R $user:$user /home/$user/workspace
+RUN chmod a+rw /home/$user/workspace
 
 #WORKDIR /notebooks
 # Activate Source
