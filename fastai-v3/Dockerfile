@@ -55,14 +55,15 @@ ENV PATH=$PATH:/opt/conda/bin/
 COPY enviroment.yaml /enviroment.yaml
 RUN conda env create -f enviroment.yaml
 
-# Create an alias to run jupyter notebooks easier
-RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --port=8889'" >> /$HOME/.bashrc
-RUN /bin/bash -c 'source $HOME/.bashrc'
-
 # Create main workspace directory -- to be mapped to directory in the host computer
 WORKDIR /home/$user/workspace
 RUN chown -R $user:$user /home/$user/workspace
 RUN chmod a+rw /home/$user/workspace
+
+# Create an alias to run jupyter notebooks easier
+USER $user
+RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --port=8889'" >> /$HOME/.bashrc
+RUN /bin/bash -c 'source $HOME/.bashrc'
 
 #WORKDIR /notebooks
 # Activate Source

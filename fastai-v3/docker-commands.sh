@@ -58,7 +58,7 @@ if [ "$1" = "run" ]; then
     --env="QT_X11_NO_MITSHM=1" \
     --workdir="/home/${user}" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --volume=`pwd`/workspace:/home/${user}/workspace \
+    --volume=`pwd`/workspace:/home/${user}/workspace:rw \
     ${imageName}
 fi
 
