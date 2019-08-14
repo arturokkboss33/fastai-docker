@@ -53,6 +53,7 @@ if [ "$1" = "run" ]; then
     $DRI_ARGS \
     --name="${containerName}" \
     --hostname="${myhostname}" \
+    --ipc=host \
     --net=default \
     --publish 8889:8889 \
     --env="DISPLAY" \
