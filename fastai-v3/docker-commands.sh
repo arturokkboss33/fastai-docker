@@ -26,8 +26,9 @@ if [ "$1" = "build" ]; then
     imageName=$2
     imageTag=$3
     echo -e "${GREEN}>>> Building ${imageName}:${imageTag} image ...${NC}"
-    docker build --build-arg user=$user --build-arg userid=$userid --build-arg group=$group \
-    --build-arg groupid=$groupid -t ${user}/${imageName}:${imageTag} .
+    #docker build --build-arg user=$user --build-arg userid=$userid --build-arg group=$group \
+    #--build-arg groupid=$groupid -t ${user}/${imageName}:${imageTag} .
+    docker build --build-arg user=$user -t ${user}/${imageName}:${imageTag} .
 fi
 
 if [ "$1" = "run" ]; then    
@@ -50,16 +51,14 @@ if [ "$1" = "run" ]; then
     # Map workspace folder to local computer
     docker run --runtime=nvidia -d -it \
     $DRI_ARGS \
-    --user="${userid}" \
     --name="${containerName}" \
     --hostname="${myhostname}" \
     --net=default \
     --publish 8889:8889 \
     --env="DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
-    --workdir="/home/${user}" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --volume=`pwd`/workspace:/home/${user}/workspace:rw \
+    --volume=`pwd`/workspace:/home/$user/workspace:rw \
     ${imageName}
 fi
 

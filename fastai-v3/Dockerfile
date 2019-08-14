@@ -5,9 +5,9 @@ LABEL maintener="a.gomezchavez@jacobs-university.de"
 
 # arguments passed when image is created
 ARG user
-ARG userid
-ARG group
-ARG groupid
+#ARG userid
+#ARG group
+#ARG groupid
 
 # See http://bugs.python.org/issue19846
 ENV LANG C.UTF-8
@@ -36,10 +36,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-
     rm -rf /var/lib/apt/lists/*
 
 ## set up users and groups
-RUN addgroup --gid $groupid $group && \
-    adduser --uid $userid --gid $groupid --gecos "" --shell /bin/bash $user && \
-    echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$user && \
-    chmod 0440 /etc/sudoers.d/$user
+#RUN addgroup --gid $groupid $group && \
+#    adduser --uid $userid --gid $groupid --gecos "" --shell /bin/bash $user && \
+#    echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$user && \
+#    chmod 0440 /etc/sudoers.d/$user
 
 # define environment variables necessary for conda installation
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
@@ -59,13 +59,13 @@ RUN conda env create -f enviroment-local.yaml
 
 # Create main workspace directory -- to be mapped to directory in the host computer
 WORKDIR /home/$user/workspace
-RUN chown -R $user:$user /home/$user/workspace
+#RUN chown -R $user:$user /home/$user/workspace
 RUN chmod a+rw /home/$user/workspace
 
 # Create an alias to run jupyter notebooks easier
-USER $user
-RUN echo "alias showIP=' ifconfig eth0 | sed -n \"2s/[^:]*:\\\([^ ]*\\\).*/\\\\1/p\" '" >> /home/$user/.bashrc
-RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --ip=\`showIP\` --port=8889'" >> /$HOME/.bashrc
+#USER $user
+RUN echo "alias showIP=' ifconfig eth0 | sed -n \"2s/[^:]*:\\\([^ ]*\\\).*/\\\\1/p\" '" >> $HOME/.bashrc
+RUN echo "alias runJupyterNotebook='jupyter notebook --allow-root --ip=\`showIP\` --port=8889'" >> $HOME/.bashrc
 RUN /bin/bash -c 'source $HOME/.bashrc'
 
 #WORKDIR /notebooks
